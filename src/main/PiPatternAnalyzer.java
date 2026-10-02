@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Aplicación de interfaz gráfica (Swing) para el análisis, visualización
- * y búsqueda de patrones geométricos y secuencias numéricas/textuales
- * en los dígitos del número Pi.
+ * Graphical User Interface (Swing) application for analyzing, visualizing,
+ * and searching geometric patterns and numerical/textual sequences
+ * in the digits of Pi.
  *
- * Soporta carga por archivo físico local (pi_digits.txt) y generación
- * matemática infinita en tiempo real mediante un motor Spigot.
+ * Supports loading via local physical file (pi_digits.txt) and real-time
+ * infinite mathematical generation using a Spigot engine.
  *
  * @author José González Alonso
  * @version 2.0
@@ -29,9 +29,9 @@ public class PiPatternAnalyzer extends JFrame {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Motor matemático basado en el algoritmo Spigot (Jeremy Gibbons) para
-     * calcular dígitos reales de Pi de forma secuencial e infinita
-     * mediante aritmética de precisión arbitraria (BigInteger).
+     * Mathematical engine based on the Spigot algorithm (Jeremy Gibbons) to
+     * calculate real digits of Pi sequentially and infinitely using
+     * arbitrary-precision arithmetic (BigInteger).
      */
     private static class PiSpigotEngine {
         private BigInteger q = BigInteger.ONE;
@@ -41,16 +41,16 @@ public class PiPatternAnalyzer extends JFrame {
         private BigInteger n = BigInteger.valueOf(3);
         private BigInteger l = BigInteger.valueOf(3);
 
-        /** Caché en memoria para evitar re-calcular dígitos ya procesados. */
+        /** In-memory cache to avoid recalculating previously processed digits. */
         private final List<Byte> cachedDigits = new ArrayList<>();
 
         /**
-         * Obtiene el dígito de Pi en el índice especificado.
-         * Si no ha sido calculado previamente, genera todos los dígitos
-         * intermedios hasta alcanzar la posición deseada.
+         * Gets the digit of Pi at the specified index.
+         * If it has not been calculated previously, it generates all intermediate
+         * digits until reaching the desired position.
          *
-         * @param index Posición del dígito decimal deseado (0-indexed).
-         * @return Dígito numérico entre 0 y 9.
+         * @param index Position of the desired decimal digit (0-indexed).
+         * @return Numeric digit between 0 and 9.
          */
         public synchronized byte getDigitAt(int index) {
             while (cachedDigits.size() <= index) {
@@ -60,10 +60,10 @@ public class PiPatternAnalyzer extends JFrame {
         }
 
         /**
-         * Ejecuta una iteración de la serie matemática Spigot para extraer
-         * el siguiente dígito exacto de Pi.
+         * Executes an iteration of the Spigot mathematical series to extract
+         * the next exact digit of Pi.
          *
-         * @return El siguiente dígito calculado.
+         * @return The next calculated digit.
          */
         private int calculateNextDigit() {
             while (true) {
@@ -92,26 +92,26 @@ public class PiPatternAnalyzer extends JFrame {
     }
 
     /**
-     * Modos de representación visual disponibles para la cuadrícula de análisis.
+     * Visual display modes available for the analysis grid.
      */
     public enum DisplayMode {
-        /** Muestra los dígitos en formato numérico tradicional (0-9). */
+        /** Displays digits in traditional numeric format (0-9). */
         NUMBERS,
-        /** Muestra pares de dígitos convertidos en caracteres del alfabeto inglés (A-Z). */
+        /** Displays pairs of digits converted into English alphabet characters (A-Z). */
         ENGLISH_LETTERS,
-        /** Representación por paleta fija de 10 colores distintivos. */
+        /** Representation using a fixed palette of 10 distinct colors. */
         TEN_COLORS,
-        /** Representación en blanco y negro según paridad (Par = Negro, Impar = Blanco). */
+        /** Monochrome representation based on parity (Even = Black, Odd = White). */
         MONOCHROME_BW
     }
 
-    /** Tamaño en píxeles de cada celda individual en la cuadrícula. */
+    /** Size in pixels of each individual cell in the grid. */
     private static final int CELL_SIZE = 18;
 
-    /** Número total de filas fijas que se muestran en el viewport. */
+    /** Total number of fixed rows displayed in the viewport. */
     private static final int CANVAS_HEIGHT_CELLS = 30;
 
-    /** Paleta de colores para el modo {@link DisplayMode#TEN_COLORS}. */
+    /** Color palette for {@link DisplayMode#TEN_COLORS} mode. */
     private static final Color[] TEN_PALETTE = {
         Color.BLACK,
         Color.RED,
@@ -144,8 +144,8 @@ public class PiPatternAnalyzer extends JFrame {
     private final JComboBox<Integer> colSelector;
 
     /**
-     * Constructor principal. Configura la ventana Swing, inicializa los componentes
-     * de control y carga las fuentes de datos.
+     * Main constructor. Configures the Swing window, initializes control components,
+     * and loads data sources.
      */
     public PiPatternAnalyzer() {
         setTitle("Pi Infinite Pattern & Geometry Analyzer (Spigot Engine)");
@@ -181,7 +181,7 @@ public class PiPatternAnalyzer extends JFrame {
         jumpButton.addActionListener(e -> jumpToDigitIndex());
 
         searchField = new JTextField(10);
-        searchField.setToolTipText("Escribe patrón a buscar y pulsa Enter o Buscar");
+        searchField.setToolTipText("Enter pattern to search and press Enter or Search");
         searchField.addActionListener(e -> searchPatternSequence());
 
         JButton searchButton = new JButton("Find Next");
@@ -240,9 +240,9 @@ public class PiPatternAnalyzer extends JFrame {
     }
 
     /**
-     * Intenta abrir el archivo externo de dígitos de Pi si existe en el sistema.
+     * Attempts to open the external Pi digits file if it exists in the system.
      *
-     * @param filePath Ruta relativa o absoluta del archivo de texto.
+     * @param filePath Relative or absolute path of the text file.
      */
     private void initFileSource(String filePath) {
         try {
@@ -258,12 +258,12 @@ public class PiPatternAnalyzer extends JFrame {
     }
 
     /**
-     * Obtiene el dígito de Pi en un índice absoluto. Prioriza la lectura
-     * del archivo local `pi_digits.txt` si está disponible; en caso contrario,
-     * utiliza el motor matematico Spigot.
+     * Gets the digit of Pi at an absolute index. Prioritizes reading from
+     * the local file `pi_digits.txt` if available; otherwise, uses the Spigot
+     * mathematical engine.
      *
-     * @param index Posición absoluta del dígito buscado (0-indexed).
-     * @return Valor numérico del dígito (0 a 9).
+     * @param index Absolute position of the requested digit (0-indexed).
+     * @return Numeric value of the digit (0 to 9).
      */
     private int getPiDigitAt(long index) {
         if (index < 0) return 0;
@@ -285,8 +285,8 @@ public class PiPatternAnalyzer extends JFrame {
     }
 
     /**
-     * Recalcula las dimensiones internas del panel de dibujo en función
-     * de las columnas seleccionadas y actualiza el texto informativo.
+     * Recalculates the internal dimensions of the drawing panel based on
+     * the selected columns and updates the informative text.
      */
     private void updateGridDimensions() {
         int widthPx = gridCols * CELL_SIZE;
@@ -298,24 +298,23 @@ public class PiPatternAnalyzer extends JFrame {
         if (gridInfoLabel != null) {
             gridInfoLabel.setText(String.format("Grid Specs: %d Cols x %d Rows (%d cells/viewport) | Source: %s",
                     gridCols, CANVAS_HEIGHT_CELLS, gridCols * CANVAS_HEIGHT_CELLS,
-                    isFileLoaded ? "pi_digits.txt" : "Generador Matemático Spigot (Pi Infinito Real)"));
+                    isFileLoaded ? "pi_digits.txt" : "Spigot Mathematical Generator (Real Infinite Pi)"));
         }
     }
 
     /**
-     * Actualiza el texto de sugerencia (tooltip) en la barra de búsqueda
-     * dependiendo del modo de visualización actual.
+     * Updates the tooltip text in the search bar depending on the current display mode.
      */
     private void updateSearchPlaceholder() {
         if (currentMode == DisplayMode.ENGLISH_LETTERS) {
-            searchField.setToolTipText("Ejemplo de búsqueda: 'A', 'PI' o 'HELLO'");
+            searchField.setToolTipText("Search example: 'A', 'PI', or 'HELLO'");
         } else {
-            searchField.setToolTipText("Ejemplo de búsqueda: '31415' o '9265'");
+            searchField.setToolTipText("Search example: '31415' or '9265'");
         }
     }
 
     /**
-     * Desplaza el viewport directamente al índice introducido en el campo "Go to #".
+     * Scrolls the viewport directly to the index entered in the "Go to #" field.
      */
     private void jumpToDigitIndex() {
         try {
@@ -332,7 +331,7 @@ public class PiPatternAnalyzer extends JFrame {
     }
 
     /**
-     * Redirige la búsqueda según el modo de visualización seleccionado.
+     * Redirects the search according to the selected display mode.
      */
     private void searchPatternSequence() {
         String query = searchField.getText().trim();
@@ -346,14 +345,14 @@ public class PiPatternAnalyzer extends JFrame {
     }
 
     /**
-     * Busca una secuencia de dígitos numéricos en los datos de Pi.
+     * Searches for a numerical digit sequence in the Pi data.
      *
-     * @param query Cadena con los dígitos numéricos a localizar.
+     * @param query String containing the numerical digits to locate.
      */
     private void searchNumericSequence(String query) {
         String digitsOnly = query.replaceAll("\\D+", "");
         if (digitsOnly.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Introduce dígitos numéricos para buscar (ej. 31415)", "Búsqueda", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Enter numeric digits to search (e.g., 31415)", "Search", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -379,17 +378,17 @@ public class PiPatternAnalyzer extends JFrame {
             updateStatusText();
             canvasPanel.repaint();
         } else {
-            JOptionPane.showMessageDialog(this, "No se encontró la secuencia numérica en el rango escaneado: \"" + digitsOnly + "\"", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Numeric sequence not found in scanned range: \"" + digitsOnly + "\"", "No Results", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     /**
-     * Algoritmo auxiliar de búsqueda de coincidencia de patrones numéricos.
+     * Auxiliary search algorithm for matching numerical patterns.
      *
-     * @param target Array de enteros a buscar.
-     * @param start  Índice inicial de búsqueda.
-     * @param limit  Índice límite máximo de búsqueda.
-     * @return Índice donde comienza la coincidencia, o -1 si no se encontró.
+     * @param target Array of integers to search for.
+     * @param start  Initial search index.
+     * @param limit  Maximum search limit index.
+     * @return Index where match starts, or -1 if not found.
      */
     private long findNumericMatch(int[] target, long start, long limit) {
         int len = target.length;
@@ -407,14 +406,14 @@ public class PiPatternAnalyzer extends JFrame {
     }
 
     /**
-     * Busca una secuencia de letras (A-Z) en los datos mapeados de Pi.
+     * Searches for a sequence of letters (A-Z) in the mapped Pi data.
      *
-     * @param query Palabra o conjunto de letras a localizar.
+     * @param query Word or set of letters to locate.
      */
     private void searchLetterSequence(String query) {
         String lettersOnly = query.replaceAll("[^A-Za-z]", "").toUpperCase();
         if (lettersOnly.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Introduce letras para buscar en modo LETRAS (ej. HELLO o PI)", "Búsqueda", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Enter letters to search in LETTERS mode (e.g., HELLO or PI)", "Search", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -437,17 +436,17 @@ public class PiPatternAnalyzer extends JFrame {
             updateStatusText();
             canvasPanel.repaint();
         } else {
-            JOptionPane.showMessageDialog(this, "No se encontró la palabra de letras en el rango escaneado: \"" + lettersOnly + "\"", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Letter word not found in scanned range: \"" + lettersOnly + "\"", "No Results", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     /**
-     * Algoritmo auxiliar para localizar la coincidencia de secuencias alfabéticas.
+     * Auxiliary algorithm to locate alphabetic sequence matches.
      *
-     * @param target Array de caracteres a buscar.
-     * @param start  Índice inicial.
-     * @param limit  Índice final.
-     * @return Índice de inicio de la coincidencia o -1 si no existe.
+     * @param target Array of characters to search for.
+     * @param start  Initial index.
+     * @param limit  Final index.
+     * @return Starting index of the match, or -1 if it does not exist.
      */
     private long findLetterMatch(char[] target, long start, long limit) {
         int len = target.length;
@@ -468,7 +467,7 @@ public class PiPatternAnalyzer extends JFrame {
     }
 
     /**
-     * Exporta la región o patrón actualmente seleccionado por el usuario a una imagen formato PNG.
+     * Exports the region or pattern currently selected by the user to a PNG image.
      */
     private void exportSelectionToPNG() {
         if (selectionStart < 0) {
@@ -519,8 +518,8 @@ public class PiPatternAnalyzer extends JFrame {
     }
 
     /**
-     * Actualiza el texto de la barra de estado inferior con los datos del
-     * rango o celda seleccionada.
+     * Updates the text on the bottom status bar with the data of the
+     * selected range or cell.
      */
     private void updateStatusText() {
         if (selectionStart < 0) {
@@ -541,15 +540,15 @@ public class PiPatternAnalyzer extends JFrame {
     }
 
     /**
-     * Panel personalizado de Swing encargado del renderizado gráfico de la matriz
-     * de dígitos y de la gestión de eventos de ratón para selección.
+     * Custom Swing panel responsible for graphically rendering the digit matrix
+     * and handling mouse events for selection.
      */
     private class CanvasPanel extends JPanel {
 
         private static final long serialVersionUID = 1L;
 
         /**
-         * Inicializa los escuchadores de ratón para soportar selección individual o por arrastre.
+         * Initializes mouse listeners to support individual or click-and-drag selection.
          */
         public CanvasPanel() {
             setBackground(Color.DARK_GRAY);
@@ -582,12 +581,12 @@ public class PiPatternAnalyzer extends JFrame {
         }
 
         /**
-         * Convierte las coordenadas del ratón (x, y) en píxeles al índice absoluto
-         * del dígito de Pi en el viewport.
+         * Converts pixel mouse coordinates (x, y) to the absolute index of
+         * the Pi digit in the viewport.
          *
-         * @param x Coordenada X del clic/arrastre.
-         * @param y Coordenada Y del clic/arrastre.
-         * @return Índice global del dígito o -1 si la coordenada está fuera del área útil.
+         * @param x X coordinate of the click/drag.
+         * @param y Y coordinate of the click/drag.
+         * @return Global index of the digit or -1 if coordinates are outside the usable area.
          */
         private long getDigitIndexFromMouse(int x, int y) {
             int col = x / CELL_SIZE;
@@ -601,9 +600,9 @@ public class PiPatternAnalyzer extends JFrame {
         }
 
         /**
-         * Dibuja los elementos visuales en el canvas (celdas, colores, textos y resaltado de selección).
+         * Renders visual elements on the canvas (cells, colors, text, and selection highlights).
          *
-         * @param g Objeto Graphics proporcionado por el motor de pintado de Swing.
+         * @param g Graphics object provided by the Swing painting engine.
          */
         @Override
         protected void paintComponent(Graphics g) {
@@ -666,9 +665,9 @@ public class PiPatternAnalyzer extends JFrame {
     }
 
     /**
-     * Punto de entrada principal de la aplicación Java.
+     * Main entry point for the Java application.
      *
-     * @param args Argumentos de la línea de comandos (no utilizados).
+     * @param args Command-line arguments (unused).
      */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
