@@ -1,0 +1,20 @@
+# Compiled Java class files
+bin/
+*.class
+
+# Generated Javadoc HTML documentation
+doc/
+
+# Eclipse IDE metadata and configuration
+.classpath
+.project
+.settings/
+
+# Application output and temporary files
+*.png
+pi_digits.txt
+text.txt
+
+# Operating System files
+.DS_Store
+Thumbs.db
